@@ -22,41 +22,45 @@ use BDProcesosSeleccion;
 
 /** Crea las tablas. */
 CREATE TABLE Candidaturas (
-    ID_Candidatura INT,
-    ID_Proceso INT,
-    Sexo VARCHAR(255),
-    Estado VARCHAR(255),
+    ID_Candidatura INTEGER,
+    ID_Proceso INTEGER,
+    Sexo TEXT(255),
+    Estado TEXT(255),
     CONSTRAINT PK_Candidaturas PRIMARY KEY (ID_Candidatura)
 );
 
+
 CREATE TABLE Contratos (
-    ID_Contrato INT,
-    ID_Candidatura INT,
+    ID_Contrato INTEGER,
+    ID_Candidatura INTEGER,
     Fecha_Contrato DATETIME,
-    CONSTRAINT PK_Contratos PRIMARY KEY (ID_Contrato),
-    CONSTRAINT FK_Candidaturas_Contratos FOREIGN KEY (ID_Candidatura) 
-        REFERENCES Candidaturas (ID_Candidatura)
+    CONSTRAINT PK_Contratos PRIMARY KEY (ID_Contrato)
 );
+
+
+CREATE TABLE FasesDeLosProcesos (
+    ID_Fase INTEGER,
+    ID_Proceso INTEGER,
+    Estado TEXT(255),
+    Fecha DATETIME,
+    CONSTRAINT PK_FasesDeLosProcesos PRIMARY KEY (ID_Fase)
+);
+
+
+CREATE TABLE PreSelecciones (
+    ID_PreSeleccion INTEGER,
+    ID_Fase INTEGER,
+    ID_Candidatura INTEGER,
+    Estado TEXT(255),
+    CONSTRAINT PK_PreSelecciones PRIMARY KEY (ID_PreSeleccion)
+);
+
 
 CREATE TABLE ProcesosDeSeleccion (
-    ID_Proceso INT,
-    Nombre_Proceso VARCHAR(255),
+    ID_Proceso INTEGER,
+    Nombre_Proceso TEXT(255),
     Fecha_Inicio DATETIME,
     Fecha_Fin DATETIME,
-    Descripcion VARCHAR(255),
+    Descripcion TEXT(255),
     CONSTRAINT PK_ProcesosDeSeleccion PRIMARY KEY (ID_Proceso)
 );
-
-CREATE TABLE Fases (
-    ID_Fase INT,
-    ID_Proceso INT,
-    Estado VARCHAR(255),
-    Fecha_Fase DATETIME,
-    CONSTRAINT PK_Fases PRIMARY KEY (ID_Fase),
-    CONSTRAINT FK_Procesos_Fases FOREIGN KEY (ID_Proceso) 
-        REFERENCES ProcesosDeSeleccion (ID_Proceso)
-);
-
-ALTER TABLE Candidaturas 
-    ADD CONSTRAINT FK_Procesos_Candidaturas FOREIGN KEY (ID_Proceso) 
-    REFERENCES ProcesosDeSeleccion (ID_Proceso);
